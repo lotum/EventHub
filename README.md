@@ -3,6 +3,7 @@
 EventHub is a observer pattern implementation. You can register for events and emit those events.
 
 ## Usage
+### Hub
 #### Simple events:
 ```
 let hub = EventHub<String, Void>()
@@ -58,6 +59,30 @@ hub.removeAllListeners()										//all listeners get removed
 ```
 //function is only evaluated if there are listeners registered
 hub.emit("myEvent", with: expensiveToCalculateObject())
+```
+
+### Application state
+You can observe application state
+```
+ApplicationState.shared.addChangeListener { status in
+		switch status {
+		case .active: print("App in foreground")
+		case .inactive: print("App inactive")
+		case .background: print("App in background")
+		}
+}.addTo(bag)
+```
+
+### Connection state
+You can observe internet connection state
+```
+ConnectionState.shared.addChangeListener { status in
+		switch status {
+		case .unreachable: print("No internet connection")
+		case .wwan: print("On 3G or Edge")
+		case .wifi: print("On Wifi")
+		}
+}.addTo(bag)
 ```
 
 ## Example
