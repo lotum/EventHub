@@ -20,6 +20,8 @@ public final class EventHub<EventT: Hashable, PayloadT> {
     
     //MARK: Public API
     
+    public init() {}
+    
     public func on(_ event: EventT, action: @escaping (PayloadT)->Void) -> Disposable {
         return on(event, lifetime: .always, action: action)
     }
