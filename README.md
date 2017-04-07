@@ -60,6 +60,38 @@ hub.removeAllListeners()										//all listeners get removed
 hub.emit("myEvent", with: expensiveToCalculateObject())
 ```
 
+## Example
+```
+enum LifecycleEvent {
+    case didAppear
+    case didDisappear
+}
+
+final class ViewController: UIViewController {
+
+    let bag = DisposeBag()
+    let hub = EventHub<LifecycleEvent, Void>()
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        hub.emit(.didAppear)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        hub.emit(.didDisappear)
+        super.viewDidDisappear(animated)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        hub.on(.didAppear) {
+            print("VIEW DID APPEAR")
+        }.addTo(bag)
+    }
+}
+```
+
+
 ## Installation
 
 Include EventHub via CocoaPods
