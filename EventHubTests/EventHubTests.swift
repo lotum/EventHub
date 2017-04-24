@@ -1,5 +1,5 @@
 import XCTest
-@testable import LotumEventHub
+@testable import EventHub
 
 
 class EventHubTest: XCTestCase {
