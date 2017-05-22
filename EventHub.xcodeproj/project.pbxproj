@@ -15,6 +15,11 @@
 		03FA67D31E9558A000E41B52 /* DisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA67D21E9558A000E41B52 /* DisposeBag.swift */; };
 		03FA67D51E9558B200E41B52 /* Disposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA67D41E9558B200E41B52 /* Disposable.swift */; };
 		03FA67D71E955A4800E41B52 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA67D61E955A4800E41B52 /* ConnectionState.swift */; };
+		9504711E1ECC91D600F2F711 /* LotumEventHubMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 9504711C1ECC91D600F2F711 /* LotumEventHubMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		950471271ECC92C100F2F711 /* EventHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA67CE1E95588000E41B52 /* EventHub.swift */; };
+		950471281ECC92C100F2F711 /* Disposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA67D41E9558B200E41B52 /* Disposable.swift */; };
+		950471291ECC92C100F2F711 /* DisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA67D21E9558A000E41B52 /* DisposeBag.swift */; };
+		9504712A1ECC92C100F2F711 /* EventHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 03FA67B71E9557CF00E41B52 /* EventHub.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +44,10 @@
 		03FA67D21E9558A000E41B52 /* DisposeBag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisposeBag.swift; sourceTree = "<group>"; };
 		03FA67D41E9558B200E41B52 /* Disposable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Disposable.swift; sourceTree = "<group>"; };
 		03FA67D61E955A4800E41B52 /* ConnectionState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
+		9504711A1ECC91D600F2F711 /* LotumEventHub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LotumEventHub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9504711C1ECC91D600F2F711 /* LotumEventHubMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LotumEventHubMac.h; sourceTree = "<group>"; };
+		9504711D1ECC91D600F2F711 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95472CD71ECC90FC001E687E /* LotumEventHub copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LotumEventHub copy-Info.plist"; path = "/Users/dennis/Work/Tools/liveJsonViewer/LiveJson/EventHub/LotumEventHub copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +66,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		950471161ECC91D600F2F711 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -65,7 +81,9 @@
 			children = (
 				03FA67B61E9557CF00E41B52 /* EventHub */,
 				03FA67C11E9557CF00E41B52 /* EventHubTests */,
+				9504711B1ECC91D600F2F711 /* LotumEventHubMac */,
 				03FA67B51E9557CF00E41B52 /* Products */,
+				95472CD71ECC90FC001E687E /* LotumEventHub copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +92,7 @@
 			children = (
 				03FA67B41E9557CF00E41B52 /* LotumEventHub.framework */,
 				03FA67BD1E9557CF00E41B52 /* EventHubTests.xctest */,
+				9504711A1ECC91D600F2F711 /* LotumEventHub.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,6 +120,15 @@
 			path = EventHubTests;
 			sourceTree = "<group>";
 		};
+		9504711B1ECC91D600F2F711 /* LotumEventHubMac */ = {
+			isa = PBXGroup;
+			children = (
+				9504711C1ECC91D600F2F711 /* LotumEventHubMac.h */,
+				9504711D1ECC91D600F2F711 /* Info.plist */,
+			);
+			path = LotumEventHubMac;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -109,6 +137,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				03FA67C51E9557CF00E41B52 /* EventHub.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		950471171ECC91D600F2F711 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9504711E1ECC91D600F2F711 /* LotumEventHubMac.h in Headers */,
+				9504712A1ECC92C100F2F711 /* EventHub.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +188,24 @@
 			productReference = 03FA67BD1E9557CF00E41B52 /* EventHubTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		950471191ECC91D600F2F711 /* LotumEventHubMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9504711F1ECC91D600F2F711 /* Build configuration list for PBXNativeTarget "LotumEventHubMac" */;
+			buildPhases = (
+				950471151ECC91D600F2F711 /* Sources */,
+				950471161ECC91D600F2F711 /* Frameworks */,
+				950471171ECC91D600F2F711 /* Headers */,
+				950471181ECC91D600F2F711 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LotumEventHubMac;
+			productName = LotumEventHubMac;
+			productReference = 9504711A1ECC91D600F2F711 /* LotumEventHub.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -171,6 +226,11 @@
 						DevelopmentTeam = 8EHUS58MFQ;
 						ProvisioningStyle = Automatic;
 					};
+					950471191ECC91D600F2F711 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 8EHUS58MFQ;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 03FA67AE1E9557CF00E41B52 /* Build configuration list for PBXProject "EventHub" */;
@@ -187,6 +247,7 @@
 			targets = (
 				03FA67B31E9557CF00E41B52 /* LotumEventHub */,
 				03FA67BC1E9557CF00E41B52 /* EventHubTests */,
+				950471191ECC91D600F2F711 /* LotumEventHubMac */,
 			);
 		};
 /* End PBXProject section */
@@ -200,6 +261,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		03FA67BB1E9557CF00E41B52 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		950471181ECC91D600F2F711 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -226,6 +294,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				03FA67C31E9557CF00E41B52 /* EventHubTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		950471151ECC91D600F2F711 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				950471271ECC92C100F2F711 /* EventHub.swift in Sources */,
+				950471281ECC92C100F2F711 /* Disposable.swift in Sources */,
+				950471291ECC92C100F2F711 /* DisposeBag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +488,52 @@
 			};
 			name = Release;
 		};
+		950471201ECC91D600F2F711 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8EHUS58MFQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = LotumEventHubMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lotum.LotumEventHubMac;
+				PRODUCT_NAME = LotumEventHub;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		950471211ECC91D600F2F711 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8EHUS58MFQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = LotumEventHubMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lotum.LotumEventHubMac;
+				PRODUCT_NAME = LotumEventHub;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -439,6 +563,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9504711F1ECC91D600F2F711 /* Build configuration list for PBXNativeTarget "LotumEventHubMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				950471201ECC91D600F2F711 /* Debug */,
+				950471211ECC91D600F2F711 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
