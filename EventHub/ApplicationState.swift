@@ -39,13 +39,18 @@ final public class ApplicationState {
     
     public func addChangeListener(_ listener: @escaping (ApplicationStatus)->Void) -> Disposable {
         defer { fire() }
+        return hub.on("change", action: { (newStatus, oldStatus) in listener(newStatus) })
+    }
+
+    public func addChangeListener(_ listener: @escaping (ApplicationStatus, ApplicationStatus)->Void) -> Disposable {
+        defer { fire() }
         return hub.on("change", action: listener)
     }
-    
+
     
     //MARK: Private
     
-    private let hub = EventHub<String, ApplicationStatus>()
+    private let hub = EventHub<String, (ApplicationStatus, ApplicationStatus)>()
     private var applicationState: UIApplicationState {
         didSet {
             if applicationState != oldValue {
@@ -98,12 +103,17 @@ final public class ApplicationState {
         }
     }
     
-    private func fireApplicationEvent(_ event: ApplicationStatus) {
+    private func fireApplicationEvent(_ event: (ApplicationStatus, ApplicationStatus)) {
         hub.emit("change", on: callbackQueue, with: event)
     }
     
     private func fire() {
-        fireApplicationEvent(ApplicationStatus(applicationState: applicationState))
+        fire(newState: applicationState, oldState: applicationState)
+    }
+    
+    private func fire(newState: UIApplicationState, oldState: UIApplicationState) {
+        let payload = (ApplicationStatus(applicationState: newState), ApplicationStatus(applicationState: oldState))
+        fireApplicationEvent(payload)
     }
 }
 
