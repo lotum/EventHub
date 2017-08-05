@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LotumEventHub"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "Observer pattern implementation in swift"
 
   s.description  = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/LOTUM/EventHub"
   s.license      = "Apache License, Version 2.0"
 
-  s.author       = { "Sebastian" => "bastianschilbe@users.noreply.github.com" }
+  s.author       = { "Sebastian" => "schilbe@lotum.de" }
 
   s.source       = { :git => "https://github.com/LOTUM/EventHub.git", :tag => "#{s.version}" }
 
