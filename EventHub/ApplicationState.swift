@@ -54,7 +54,7 @@ final public class ApplicationState {
     private var applicationState: UIApplicationState {
         didSet {
             if applicationState != oldValue {
-                fire()
+                fire(newState: applicationState, oldState: oldValue)
             }
         }
     }
