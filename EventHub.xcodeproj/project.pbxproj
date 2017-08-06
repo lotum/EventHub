@@ -47,7 +47,6 @@
 		9504711A1ECC91D600F2F711 /* LotumEventHub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LotumEventHub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9504711C1ECC91D600F2F711 /* LotumEventHubMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LotumEventHubMac.h; sourceTree = "<group>"; };
 		9504711D1ECC91D600F2F711 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95472CD71ECC90FC001E687E /* LotumEventHub copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LotumEventHub copy-Info.plist"; path = "/Users/dennis/Work/Tools/liveJsonViewer/LiveJson/EventHub/LotumEventHub copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +82,6 @@
 				03FA67C11E9557CF00E41B52 /* EventHubTests */,
 				9504711B1ECC91D600F2F711 /* LotumEventHubMac */,
 				03FA67B51E9557CF00E41B52 /* Products */,
-				95472CD71ECC90FC001E687E /* LotumEventHub copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
