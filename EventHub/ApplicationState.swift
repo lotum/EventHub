@@ -30,6 +30,7 @@ public enum ApplicationStatus: String, CustomStringConvertible {
 
 final public class ApplicationState {
 
+    public typealias ListenerBlock = (ApplicationStatus, ApplicationStatus)->Void
     
     //MARK: Public
     
@@ -38,12 +39,13 @@ final public class ApplicationState {
     public var callbackQueue = DispatchQueue.main
     
     public func addChangeListener(_ listener: @escaping (ApplicationStatus)->Void) -> Disposable {
-        defer { fire() }
-        return hub.on("change", action: { (newStatus, oldStatus) in listener(newStatus) })
+        let completeListener: ListenerBlock = { (newStatus, oldStatus) in listener(newStatus) }
+        defer { fire(listener: completeListener) }
+        return hub.on("change", action: completeListener)
     }
 
-    public func addChangeListener(_ listener: @escaping (ApplicationStatus, ApplicationStatus)->Void) -> Disposable {
-        defer { fire() }
+    public func addChangeListener(_ listener: @escaping ListenerBlock) -> Disposable {
+        defer { fire(listener: listener) }
         return hub.on("change", action: listener)
     }
 
@@ -107,13 +109,20 @@ final public class ApplicationState {
         hub.emit("change", on: callbackQueue, with: event)
     }
     
-    private func fire() {
-        fire(newState: applicationState, oldState: applicationState)
+    private func fire(listener: ListenerBlock? = nil) {
+        fire(newState: applicationState, oldState: applicationState, toListener: listener)
     }
     
-    private func fire(newState: UIApplicationState, oldState: UIApplicationState) {
+    private func fire(newState: UIApplicationState,
+                      oldState: UIApplicationState,
+                      toListener: ListenerBlock? = nil)
+    {
         let payload = (ApplicationStatus(applicationState: newState), ApplicationStatus(applicationState: oldState))
-        fireApplicationEvent(payload)
+        if let listener = toListener {
+            listener(payload.0, payload.1)
+        } else {
+            fireApplicationEvent(payload)
+        }
     }
 }
 
