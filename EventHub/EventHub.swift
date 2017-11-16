@@ -12,7 +12,7 @@ import Foundation
 
 
 /** 
- This class is an pub/sub implementation. You can register for events.
+ This class is a pub/sub implementation. You can register for events.
  And you can emit events on specific queues. Threadsafe.
  */
 public final class EventHub<EventT: Hashable, PayloadT> {
@@ -26,10 +26,18 @@ public final class EventHub<EventT: Hashable, PayloadT> {
         return on(event, lifetime: .always, action: action)
     }
     
-    
     @discardableResult
     public func once(_ event: EventT, action: @escaping (PayloadT)->Void) -> Disposable {
         return on(event, lifetime: .once, action: action)
+    }
+    
+    public func on(oneOf events: Set<EventT>, action: @escaping (PayloadT)->Void) -> Disposable {
+        return on(oneOf: events, lifetime: .always, action: action)
+    }
+
+    @discardableResult
+    public func once(oneOf events: Set<EventT>, action: @escaping (PayloadT)->Void) -> Disposable {
+        return on(oneOf: events, lifetime: .once, action: action)
     }
     
     public func removeAllListeners(forEvent: EventT? = nil) {
@@ -37,8 +45,17 @@ public final class EventHub<EventT: Hashable, PayloadT> {
         defer { lock.unlock() }
         if let event = forEvent {
             queuedActions[event] = nil
+            oneOfActions = oneOfActions.flatMap { listener in
+                var newListener = listener
+                newListener.events.remove(event)
+                if newListener.events.isEmpty {
+                    return nil
+                }
+                return newListener
+            }
         } else {
             queuedActions = [:]
+            oneOfActions = []
         }
     }
     
@@ -46,15 +63,23 @@ public final class EventHub<EventT: Hashable, PayloadT> {
         lock.lock()
         defer { lock.unlock() }
         if let event = forEvent {
-            return queuedActions[event]?.count ?? 0
+            let queuedActionsCount = queuedActions[event]?.count ?? 0
+            var oneOfCount = 0
+            for listener in oneOfActions {
+                if listener.events.contains(event) {
+                    oneOfCount += 1
+                }
+            }
+            return queuedActionsCount + oneOfCount
         } else {
-            return queuedActions.values.flatMap { $0 }.count
+            let queuedActionsCount = queuedActions.values.flatMap { $0 }.count
+            return queuedActionsCount + oneOfActions.count
         }
     }
     
     /**
      The event listeners registered for the given event get fired. If you don't specify a queue the listeners get
-     fired on the current queue synchronously. Otherwise they are called asynchonously on the given queue.
+     fired on the current queue synchronously. Otherwise they are called asynchronously on the given queue.
      
      The payload block only evaluate if there are listeners.
     */
@@ -62,8 +87,15 @@ public final class EventHub<EventT: Hashable, PayloadT> {
                      on queue: DispatchQueue? = nil,
                      with value: @autoclosure ()->PayloadT) {
         lock.lock()
-        let actionsToExecute = queuedActions[event] ?? []
-        self.queuedActions[event] = actionsToExecute.flatMap { $0.reduce() }
+        var actionsToExecute = queuedActions[event] ?? []
+        let oneOfActionsToExecute = oneOfActions
+            .filter { $0.events.contains(event) }
+            .map { $0.action }
+        actionsToExecute += oneOfActionsToExecute
+        
+        queuedActions[event] = actionsToExecute.flatMap { $0.reduce() }
+        oneOfActions = oneOfActions.filter { $0.action.runTime == .always || !$0.events.contains(event) }
+        
         lock.unlock()
         //run blocks after filtering the actions, so you can emit from within block()
         //without infinite recursion when emitting the same event although action lifetime is once
@@ -76,6 +108,8 @@ public final class EventHub<EventT: Hashable, PayloadT> {
     //MARK: Private
     
     private var queuedActions: [EventT:[Action<PayloadT>]] = [:]
+    private var oneOfActions: [(action: Action<PayloadT>, events: Set<EventT>)] = []
+    
     private let lock = NSLock()
     
     private func on(_ event: EventT,
@@ -92,6 +126,27 @@ public final class EventHub<EventT: Hashable, PayloadT> {
         }
     }
     
+    private func on(oneOf events: Set<EventT>,
+                    lifetime: ActionLifetime,
+                    action: @escaping (PayloadT)->Void) -> Disposable
+    {
+        if events.count == 0 {
+            return EventDisposable {}
+        }
+        if events.count == 1 {
+            return on(events.first!, lifetime: lifetime, action: action)
+        }
+        
+        lock.lock()
+        let act = Action(runTime: lifetime, action: action)
+        oneOfActions.append((action: act, events: events))
+        lock.unlock()
+        return EventDisposable { [weak self, weak act] in
+            guard let act = act else { return }
+            self?.removeOneOfListener(with: act)
+        }
+    }
+    
     private func removeListener(with toRemove: Action<PayloadT>, forEvent event: EventT) {
         lock.lock()
         defer { lock.unlock() }
@@ -99,6 +154,12 @@ public final class EventHub<EventT: Hashable, PayloadT> {
             let filteredActions = allActionsForEvent.filter { $0 !== toRemove }
             queuedActions[event] = filteredActions
         }
+    }
+    
+    private func removeOneOfListener(with toRemove: Action<PayloadT>) {
+        lock.lock()
+        defer { lock.unlock() }
+        oneOfActions = oneOfActions.filter { $0.action !== toRemove }
     }
 }
 
@@ -161,7 +222,7 @@ private final class Action<PayloadT> {
     }
     
     func reduce() -> Action? {
-        switch self.runTime {
+        switch runTime {
         case .always:
             return self
         case .once:
