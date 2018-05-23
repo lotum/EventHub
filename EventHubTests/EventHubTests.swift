@@ -146,12 +146,12 @@ class EventHubTest: XCTestCase {
         XCTAssertEqual(hub.numberOfListeners(), 1)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test1"), 1)
         
-        hub.on("test2") {}
+        _ = hub.on("test2") {}
         XCTAssertEqual(hub.numberOfListeners(), 2)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test1"), 1)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test2"), 1)
         
-        hub.on("test1") {}
+        _ = hub.on("test1") {}
         XCTAssertEqual(hub.numberOfListeners(), 3)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test1"), 2)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test2"), 1)
@@ -161,7 +161,7 @@ class EventHubTest: XCTestCase {
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test1"), 3)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test2"), 2)
         
-        hub.on(oneOf: ["test1", "test2"]) {}
+        _ = hub.on(oneOf: ["test1", "test2"]) {}
         XCTAssertEqual(hub.numberOfListeners(), 5)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test1"), 4)
         XCTAssertEqual(hub.numberOfListeners(forEvent: "test2"), 3)
@@ -204,7 +204,7 @@ class EventHubTest: XCTestCase {
         
         let hub = EventHub<String, Void>()
         var index = 0
-        hub.on(oneOf: ["test1", "test2"]) {
+        _ = hub.on(oneOf: ["test1", "test2"]) {
             es[index].fulfill()
             index += 1
         }

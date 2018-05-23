@@ -45,7 +45,7 @@ public final class EventHub<EventT: Hashable, PayloadT> {
         defer { lock.unlock() }
         if let event = forEvent {
             queuedActions[event] = nil
-            oneOfActions = oneOfActions.flatMap { listener in
+            oneOfActions = oneOfActions.compactMap { listener in
                 var newListener = listener
                 newListener.events.remove(event)
                 if newListener.events.isEmpty {
@@ -93,7 +93,7 @@ public final class EventHub<EventT: Hashable, PayloadT> {
             .map { $0.action }
         actionsToExecute += oneOfActionsToExecute
         
-        queuedActions[event] = actionsToExecute.flatMap { $0.reduce() }
+        queuedActions[event] = actionsToExecute.compactMap { $0.reduce() }
         oneOfActions = oneOfActions.filter { $0.action.runTime == .always || !$0.events.contains(event) }
         
         lock.unlock()
